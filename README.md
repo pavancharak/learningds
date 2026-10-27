@@ -29,3 +29,7 @@ The script prints a summary and saves a chart to `outputs/`. The `outputs/` fold
 - `01_explore_sales.py`: first exercise, using a small sample dataset built in the script.
 - `requirements.txt`: the packages the exercises need.
 - `outputs/`: generated charts and tables, not committed.
+
+## Docs
+
+- `docs/razorpay-agent-end-to-end.md`: the Razorpay refund agent under Parmana, end to end. Each claim is labelled as code, observed, reported or open.
