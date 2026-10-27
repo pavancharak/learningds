@@ -13,6 +13,7 @@ Start with `01-timeline-and-state.md` for the overview, then read the other file
 | [05-grant-and-approval.md](05-grant-and-approval.md) | The authority grant, the manager approval, and the approver-key gap |
 | [06-open-items-and-next-steps.md](06-open-items-and-next-steps.md) | What is still not proven, and the order to do it in |
 | [07-approver-registration.md](07-approver-registration.md) | Registering the manager's approver key: why, each command, the outcomes, and the checks |
+| [08-meeting-discussion-points.md](08-meeting-discussion-points.md) | Internal prep for the 29 October meeting with Razorpay: the five decisions, what to say and not say, and where to record answers |
 
 ## How to read the labels
 
