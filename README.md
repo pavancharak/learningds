@@ -66,3 +66,4 @@ Read it for the way the pieces fit together and for the mistakes made along the 
 2. Make it run from a clean checkout after `pip install -r requirements.txt`, with no external files.
 3. Add a row to the table in "Contents", and a sentence to "Learning path" if it starts a new step.
 4. Write any longer explanation in `docs/`.
+- `docs/razorpay-journey/`: the full journey, in six files: timeline and state, commands and outcomes, incidents and fixes, keys and secrets (names only), grant and approval, and open items.
