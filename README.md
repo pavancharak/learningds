@@ -1,14 +1,30 @@
 # learningds
 
-Notes, scripts and exercises for learning data science with Python.
+A personal study repository for data science with Python. It holds short exercises, the notes behind them, and one longer case study about an AI agent that refunds payments under an authorisation layer.
+
+Each exercise runs from start to finish on its own. Nothing here needs an external data file, a cloud account or a secret.
+
+## Contents
+
+| Path | What it is |
+| --- | --- |
+| `01_explore_sales.py` | First exercise: build a sample table, summarise it, group it, and save a chart |
+| `docs/razorpay-agent-end-to-end.md` | Case study: a refund agent, its authorisation layer and the payment provider, end to end |
+| `requirements.txt` | The Python packages the exercises use |
+| `.gitignore` | Keeps the virtual environment, notebook checkpoints and generated `outputs/` out of git |
 
 ## Learning path
 
-1. **Python and data tools.** Loading, cleaning and summarising tables with pandas, and plotting with matplotlib. Start with `01_explore_sales.py`.
-2. **Statistics.** Distributions, averages and spread, and what a p-value does and doesn't say.
-3. **Modelling.** Fitting and checking a simple regression, then a classifier.
+Work through these in order. Each step builds on the one before.
+
+1. **Python and the data tools.** Loading, cleaning and summarising tables with pandas; plotting with matplotlib. Current exercise: `01_explore_sales.py`.
+2. **Statistics.** Distributions, averages and spread; sampling; what a p-value does and does not tell you.
+3. **Modelling.** A simple regression, how to check it, then a classifier and how to judge one.
+4. **Systems.** How a model or an agent is wired into real services, what can go wrong, and how to test it. The case study in `docs/` is the worked example for this step.
 
 ## Setup
+
+You need Python 3.10 or later.
 
 ```bash
 python -m venv .venv
@@ -16,20 +32,37 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## Run
+## Run the first exercise
 
 ```bash
 python 01_explore_sales.py
 ```
 
-The script prints a summary and saves a chart to `outputs/`. The `outputs/` folder is ignored by git, so generated files stay out of the repository.
+It prints the first rows, a summary of the numeric columns, and revenue by region. It also saves a bar chart to `outputs/revenue_by_region.png`.
 
-## Layout
+The data is generated with a fixed random seed, so the numbers are the same on every run. To try a different sample, change the `seed` argument of `make_sample_sales`.
 
-- `01_explore_sales.py`: first exercise, using a small sample dataset built in the script.
-- `requirements.txt`: the packages the exercises need.
-- `outputs/`: generated charts and tables, not committed.
+## Read the case study
 
-## Docs
+`docs/razorpay-agent-end-to-end.md` describes one system from start to finish: how the agent was built, how it asks for a decision, how the decision layer checks the request, and how the approved refund reaches the payment provider. It is written so each claim is marked as one of:
 
-- `docs/razorpay-agent-end-to-end.md`: the Razorpay refund agent under Parmana, end to end. Each claim is labelled as code, observed, reported or open.
+- **Code:** read in a repository, with the file named.
+- **Observed:** seen in a live call.
+- **Reported:** taken from a report, not checked here.
+- **Open:** not built, not tested or not decided.
+
+Read it for the way the pieces fit together and for the mistakes made along the way. It contains no secrets, and it should not be read as a description of a live production system.
+
+## Conventions
+
+- **No secrets in this repository.** No keys, tokens, passwords or connection strings, in code, notebooks, docs or commit messages. Keep them in a password manager.
+- **Generated files stay out.** Charts, tables and model files go in `outputs/`, which git ignores.
+- **Notebooks.** Keep outputs cleared before committing a notebook, so diffs stay readable.
+- **Commits.** Short, present-tense subject lines, and a body when the reason isn't obvious from the change.
+
+## Adding an exercise
+
+1. Put the script or notebook at the top level, numbered in the order it should be read, for example `02_...`.
+2. Make it run from a clean checkout after `pip install -r requirements.txt`, with no external files.
+3. Add a row to the table in "Contents", and a sentence to "Learning path" if it starts a new step.
+4. Write any longer explanation in `docs/`.
