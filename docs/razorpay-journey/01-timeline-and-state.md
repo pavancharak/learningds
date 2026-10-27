@@ -53,6 +53,6 @@ A separate repository, `pavancharak/learningds`, was created for learning notes.
 | Agent in Agent Studio | Not built | Operator confirmation, 27 October (Observed) |
 | Probe | Running on schedule with the new key. Green on a manual run | Workflow run (Observed) |
 | Razorpay | One refund in the 20–27 October range, from 23 October | Dashboard screenshot (Observed) |
-| Approver key | Not created. No approval issuer registered | Filesystem check (Observed) |
+| Approver key `manager-pavan-key-2` | Generated fresh (27 Oct). Registered as an approval issuer: change `f85a497a-139e-447a-94fb-e6ea01874f50`, `APPROVED` (Observed). Details in `07` | Command output (Observed) |
 | Approved refund through the MCP tool | Not run | Open |
 | Trigger from the support tool | Not decided | Open |

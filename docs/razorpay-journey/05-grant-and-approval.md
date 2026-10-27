@@ -66,3 +66,11 @@ A change to `governance.ts` was started on `feat/approval-issuers-governance` (b
 ## 3. Why the approval matters
 
 A refund is allowed only if the grant covers it and a valid, unused approval for this payment and amount is present. The approval is checked against the payment's current state, so a reused or stale approval is refused. A refund of ₹1 with no approval is refused by policy, as the 23 October demo showed.
+
+## Update, 27 October (later): the approver is registered
+
+- The approver key `manager-pavan-key-2` was generated fresh. The 11 October pair was not used.
+- It was proposed by `maker-pavan` (change `f85a497a-139e-447a-94fb-e6ea01874f50`) and approved by `pavancharak` with the step-up key. Status `APPROVED`.
+- The helper gained `propose-issuer` and `approve-issuer` (branch `feat/approval-issuers-governance`, commit `84374e1`, pull request #168).
+- The single-person deviation applies here too: the same person proposed and approved, under two keys. It is recorded in `07`.
+- Still open: the check in `07`, section 5, and a real approval signed by this key.

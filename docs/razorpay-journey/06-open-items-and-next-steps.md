@@ -83,3 +83,10 @@ These are recorded in the meeting brief. Not decided by this journey:
 - No live refund without a recorded approval, a grant in force, and a passing check.
 - No production change without a written go-ahead for that change.
 - Two different people for every approval in production. The test-only exception applies to this journey alone.
+
+## Update, 27 October (later)
+
+- Step 1 (approver key) is done: `manager-pavan-key-2`, generated fresh.
+- Step 2 (helper support) is done: pull request #168, with `propose-issuer` and `approve-issuer`.
+- Step 3 (register the approver) is done: change `f85a497a-139e-447a-94fb-e6ea01874f50`, `APPROVED`. The verification in `07`, section 5, is not yet run.
+- The next gate is step 5: a real approval signed by this key for a captured test payment. It needs your go-ahead, and a payment id.
