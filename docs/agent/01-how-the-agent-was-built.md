@@ -26,7 +26,8 @@ Code: `examples/razorpay-agent-studio/mcp.ts`, `agent.ts`.
 - **Answer.** One JSON text block:
   - Refused: `{"status":"REFUSED","businessTransactionId","rule","reason"}`. Missing rule or reason is shown as `not recorded`.
   - Approved: `{"status":"APPROVED","businessTransactionId","razorpay"}`, where `razorpay` is the endpoint's result. The refund id is inside it.
-- **Anything else.** Any exception that is not a rejection becomes `500` with the JSON-RPC error `The refund proposal did not complete.` The real message is written to the server log only.
+- **A request that fails after its id is created** (a timeout, a connection failure, or an error from Parmana). Fixed on branch `fix/agent-tool-failure-transaction-id` (commit `6198f0b`), not yet deployed. Returns a tool error `{"status":"NOT_COMPLETED","businessTransactionId","message"}`, and the message says not to send the request again. Before the fix, it was a bare `500` with the JSON-RPC error `The refund proposal did not complete.`, and the id was only in the logs.
+- **Anything else.** Any other unexpected exception becomes `500` with the same JSON-RPC error. The real message is written to the server log only.
 
 Code note: `requestRefund` catches only `ExecutionRejectedError`. Every other error is rethrown, so a timeout or a connection failure reaches the tool's catch and becomes a `500`. It is never returned as a refusal or an approval.
 

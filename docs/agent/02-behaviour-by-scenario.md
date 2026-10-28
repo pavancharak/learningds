@@ -27,6 +27,7 @@ Why these are checked first: a bad input should never reach Parmana, because tha
 | B1 | No bearer token, or wrong token | HTTP `401`, `{"error":"unauthorized"}` | Stop. Report that the tool is not authorised. Do not retry | Code (`mcp.ts`). The body was not observed on 27 October; the status was |
 | B2 | Body is not one JSON-RPC message | HTTP `400` | Stop. This is a configuration fault | Code |
 | B3 | The tool's handler throws (for example, Parmana's API is unreachable or rejects the agent's key) | HTTP `500`, JSON-RPC error `The refund proposal did not complete.` The real message is only in the server log | Stop. Do not retry, and report that the refund did not complete. A person checks the log | Code (`mcp.ts` lines 271 to 282). Observed: `authentication required` on 27 October |
+| B4 | A request fails after its transaction id is created (a timeout, a connection failure, or an error from Parmana) | A tool error: `{"status":"NOT_COMPLETED","businessTransactionId","message"}`. The message says not to send the request again | Stop. Give the team the `businessTransactionId`. Do not retry | Code (`agent.ts`, `RefundNotCompletedError`; `mcp.ts`). **Fix on branch `fix/agent-tool-failure-transaction-id` (commit `6198f0b`), not yet deployed** |
 
 Consequence: the support agent sees "did not complete" and nothing more. The reason is in the log, so a person has to read it.
 
@@ -59,7 +60,7 @@ Consequence: the support agent sees "did not complete" and nothing more. The rea
 | E2 | The same approval is sent a second time | A second refund | Refused (C6). The approval is spent | Demo (Reported 23 October) |
 | E3 | The same approved request is sent again to the endpoint | A duplicate Razorpay refund | The endpoint returns the existing refund, with `alreadyRefunded: true`, if it carries the same receipt | Code (`razorpay.ts`, lines 162 to 175) |
 
-Gap: the tool does not return a `businessTransactionId` when it fails with a `500`, so a person cannot look up the record from the tool's answer. They have to find the transaction by the payment in the logs.
+Fixed on branch `fix/agent-tool-failure-transaction-id` (commit `6198f0b`), not yet deployed: a failure after the transaction id is created now returns `NOT_COMPLETED` with the id (row B4). Until it is deployed, the id is only in the logs.
 
 ## F. What is not verified
 

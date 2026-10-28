@@ -55,7 +55,7 @@ The rule across all of them: **a stop is safe.** Nothing is refunded by a stop. 
   4. If the call reached Parmana, its record is under the transaction id. Read it with `GET /trust-records/<transaction id>` using a valid key. Do this before anything else.
   5. Check Razorpay for a refund on the payment with a receipt matching that id.
 - **Do not** send the request again until steps 4 and 5 show that no refund was made, and a new approval exists if the old one was used.
-- **Gap:** the tool does not return the transaction id on a `500`, so step 4 depends on finding the id in the logs. **Open:** return the id on failure, or log it in a form that can be searched.
+- **Fixed on branch `fix/agent-tool-failure-transaction-id` (commit `6198f0b`), not yet deployed:** a failure after the transaction id is created returns `NOT_COMPLETED` with the id, so step 4 uses that id directly. Until the fix is deployed, the id is only in the logs.
 - **Resolved when:** the cause in the log is fixed, and the refund has been confirmed or ruled out in Razorpay.
 
 ## S8. The kill switch is on
@@ -86,8 +86,11 @@ The rule across all of them: **a stop is safe.** Nothing is refunded by a stop. 
 
 - **Why it matters:** an agent that retries on its own can send the same refund many times, and a retry on an approved request uses an approval that is already spent.
 - **The instructions today:** they forbid retrying a refused request. They do not forbid retrying a `500`.
-- **How to resolve:** add to the builder instructions: "If the tool returns a 500 or a timeout, do not retry. Report that the refund did not complete, and stop."
-- **Resolved when:** the instruction is in the builder, and a 500 has been tested to produce a stop.
+- **Status:** **open.** The builder's instructions are configured by hand in Agent Studio, so they are not changed by a code fix. Add this sentence to the instructions:
+
+  > If the tool returns NOT_COMPLETED, returns an error, or fails, do not send the request again. Report that the refund did not complete, with the businessTransactionId if one is given, and stop.
+
+- **Resolved when:** the sentence is in the builder, and a failed call has been tested to produce a stop with no second request.
 
 ## What to check after any stuck state is resolved
 
