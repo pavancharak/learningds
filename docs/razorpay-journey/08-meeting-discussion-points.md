@@ -16,22 +16,31 @@ Agree five things, and record the answer to each:
 4. The refusal status for the over-limit case.
 5. Who on Razorpay's side builds the agent and registers the connector.
 
-## 2. Where things stand (as of 27 October)
+## 2. Where things stand (updated 28 October)
 
 What is working:
 
-- **Refusals end to end through the deployed services.** A request with no authority grant reaches Parmana, and comes back `REFUSED` with the rule (`authority-not-authorized`), the reason and a transaction id. Nothing is refunded.
+- **Refusals end to end through the deployed services.** A request with no authority grant reaches Parmana and comes back `REFUSED`, with the rule (`authority-not-authorized`), the reason and a transaction id. Nothing is refunded.
 - **The agent has a grant.** `razorpay-refund-agent` may request `razorpay:refund` up to ₹5 per request, valid until 3 November 2026.
-- **The manager's approver is registered.** A signing key for manager approvals is trusted by Parmana. It was registered by a maker and approved by a checker, on 27 October.
+- **The manager's approver is registered.** A new signing key for manager approvals (`manager-pavan-key-2`) was proposed and approved on 27 October, and it is trusted by Parmana. The same person proposed and approved it, for this test only, with no second-person review.
+- **The agent's failure rule is written.** If the tool fails or does not complete, the agent stops, reports that the refund did not complete, gives the transaction id when there is one, and does not send the request again.
 - **The probe runs** on schedule, with its own key.
-- **Keys are rotated and verified.** The old keys were revoked, and every current key is checked against its entry.
+- **Keys are rotated and verified.** Old keys are revoked, and every current key is checked against its entry.
 
-What is not working or not built:
+What is not working, or not yet live:
 
-- **The Agent Studio agent has not been built.** Nothing in Agent Studio calls Parmana.
-- **Razorpay has not registered the MCP server** as a custom connector. Razorpay has said this can take about a week.
+- **The fix for failed calls is merged, but not live.** The MCP tool returns `NOT_COMPLETED` with the id only after a redeploy. The redeploy is blocked by Vercel's Hobby plan limit (100 deployments in 24 hours), which resets at about 2026-10-29 02:16 UTC. Until then, a failed call reaches the agent as a bare error.
+- **The Agent Studio agent is built and its instructions are set,** but its example runs cover only the input checks and the stop path. Four cases need a real Parmana answer.
+- **Razorpay has not registered the MCP server** as a custom connector. Without it, the agent cannot call Parmana.
 - **The approved refund has not run through the MCP tool.** The only refunds on record are from 23 October, through the demo scripts, in test mode.
 - **The support tool that sends requests is not decided.** No event receiver exists.
+
+Four cases to run once Razorpay has registered the connector:
+
+1. Approved, with a refund id.
+2. Approved, with no refund id.
+3. Refused.
+4. Did not complete.
 
 ## 3. The five decisions
 
@@ -80,6 +89,8 @@ What is not working or not built:
 - Do not promise a status code for the over-limit case.
 - Do not share a key, a token, a step-up key or an approver key, in the meeting, in chat or in email.
 - Do not describe the approver as independent. The same person proposed and approved it for this test.
+- Do not say a failed call is reported with an id, until the redeploy is live.
+- Do not describe the agent as verified. Four cases still need real Parmana answers.
 
 ## 6. Record the answers
 
@@ -97,3 +108,4 @@ What is not working or not built:
 2. Send Razorpay a written summary of the answers, and update the status letter's section 4.
 3. Run the over-limit request on a live server, to confirm the status code before anyone promises it.
 4. Agree the date for the first test refund, which is a ₹1 refund on one of Razorpay's own test payments.
+5. After the meeting, once the Vercel limit has reset: redeploy the MCP project from `main`, run the refusal request, and then run the four cases that need real answers.
